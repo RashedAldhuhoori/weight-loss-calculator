@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weight Loss Calculator</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+    <div class="container">
+        <h1>Weight Loss Calculator</h1>
+        
+        <label for="age">Age:</label>
+        <input type="number" id="age" placeholder="Enter your age" required>
+
+        <label for="weight">Current Weight (kg):</label>
+        <input type="number" id="weight" placeholder="Enter your current weight" required>
+
+        <label for="height">Height (cm):</label>
+        <input type="number" id="height" placeholder="Enter your height" required>
+
+        <label for="gender">Gender:</label>
+        <select id="gender">
+            <option value="male">Male</option>
+            <option value="female">Female</option>
+        </select>
+
+        <button onclick="calculate()">Calculate</button>
+    </div>
+
+    <script>
+        function calculate() {
+            // Get input values
+            const age = parseInt(document.getElementById("age").value);
+            const weight = parseFloat(document.getElementById("weight").value);
+            const height = parseInt(document.getElementById("height").value);
+            const gender = document.getElementById("gender").value;
+
+            // Check for missing input
+            if (isNaN(age) || isNaN(weight) || isNaN(height)) {
+                alert("Please fill in all the fields.");
+                return;
+            }
+
+            // Target weight range
+            const targetMinWeight = 83; // Lower target weight
+            const targetMaxWeight = 85; // Upper target weight
+
+            // Calculate how much weight needs to be lost
+            let weightToLoseMin = weight - targetMaxWeight;
+            let weightToLoseMax = weight - targetMinWeight;
+
+            // If the current weight is already within the target range, set weightToLose to 0
+            if (weight <= targetMaxWeight) {
+                weightToLoseMin = 0;
+            }
+
+            if (weight <= targetMinWeight) {
+                weightToLoseMax = 0;
+            }
+
+            // Format weight to lose
+            const weightToLoseMinFormatted = weightToLoseMin > 0 ? weightToLoseMin.toFixed(2) : "0";
+            const weightToLoseMaxFormatted = weightToLoseMax > 0 ? weightToLoseMax.toFixed(2) : "0";
+
+            // Redirect to result page with the calculated weight
+            const resultURL = `result.html?weightToLoseMin=${weightToLoseMinFormatted}&weightToLoseMax=${weightToLoseMaxFormatted}`;
+            window.location.href = resultURL;
+        }
+    </script>
+</body>
+</html>
